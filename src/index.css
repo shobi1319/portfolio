@@ -1,0 +1,59 @@
+/* src/index.css */
+
+/* 1. Import Google Font first (must be before any other @import or rules) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* 2. Import Tailwind v4 (this replaces the three @tailwind lines) */
+@import "tailwindcss";
+
+/* 3. Global styles & custom layers */
+@layer base {
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #f9fafb;          /* equivalent to bg-gray-50 */
+    color: #111827;                     /* gray-900 */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* 4. Custom utilities (no @apply inside here for basic colors) */
+@layer utilities {
+  .section-padding {
+    padding: 5rem 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .section-padding {
+      padding-left: 3rem;
+      padding-right: 3rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .section-padding {
+      padding-left: 5rem;
+      padding-right: 5rem;
+    }
+  }
+
+  .container-max {
+    max-width: 80rem; /* 1280px */
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .card {
+    background-color: white;
+    border-radius: 1rem;
+    border: 1px solid #f3f4f6; /* gray-100 */
+    overflow: hidden;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .card:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    transform: translateY(-4px);
+  }
+}
