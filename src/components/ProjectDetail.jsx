@@ -89,8 +89,16 @@ export default function ProjectDetail() {
         <motion.button
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          onClick={() => navigate('/')}
-          className="flex items-center gap-2 text-gray-600 hover:text-indigo-600 transition-colors mb-10 font-medium"
+          onClick={() => {
+            navigate('/');
+            setTimeout(() => {
+              const projectsSection = document.getElementById('projects');
+              if (projectsSection) {
+                projectsSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }, 100);
+          }}
+          className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 mb-10"
         >
           <ArrowLeft size={20} />
           Back to Portfolio
