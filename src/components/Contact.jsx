@@ -1,6 +1,7 @@
 // src/components/Contact.jsx
 import { motion } from 'framer-motion';
 import { Mail, Phone, Linkedin, Github, Send } from 'lucide-react';
+import profileImg from '../assets/profile.png';
 
 export default function Contact() {
   return (
@@ -33,8 +34,26 @@ export default function Contact() {
           </p>
         </motion.div>
 
-        <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-10 md:gap-16">
-          {/* Left: Quick contact + social */}
+<div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-10 md:gap-16 items-center">
+  {/* Profile Image */}
+<motion.div
+  initial={{ opacity: 0, scale: 0.8 }}
+  whileInView={{ opacity: 1, scale: 1 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.7 }}
+  className="flex justify-center"
+>
+  <div className="relative">
+    <img
+      src={profileImg}
+      alt="Profile"
+      className="w-48 h-48 md:w-64 md:h-64 object-cover rounded-full border-4 border-indigo-500/40 shadow-2xl"
+    />
+
+    {/* Glow effect */}
+    <div className="absolute inset-0 rounded-full bg-indigo-500/20 blur-2xl -z-10"></div>
+  </div>
+</motion.div>          {/* Left: Quick contact + social */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
