@@ -12,12 +12,12 @@ const certifications = [
     link: "https://coursera.org/share/3a28c8d8a16d179fd913dc1da158693f",
   },
   {
-    title: "Use AI as a Creative or Expert Partner",
+    title: "Google Prompting Essentials Specialization",
     issuer: "Google (offered through Coursera)",
-    date: "October 2025",
+    date: "October 8, 2025",
     description:
-      "Successfully completed this online course authorized by Google. Attests to the learner’s completion of the course delivered via Coursera. Certificate ID: V8UQ4QWMEIX6.",
-    link: "https://coursera.org/share/3a82c18f39a22770033479d17412e3bb",
+      "Successfully completed the Google Prompting Essentials Specialization through Coursera. This specialization includes four courses designed to build AI prompting skills: Start Writing Prompts like a Pro, Design Prompts for Everyday Work Tasks, Speed Up Data Analysis and Presentation Building, and Use AI as a Creative or Expert Partner. Developed competencies in designing effective prompts and applying advanced prompting techniques for complex tasks, data analysis, and information summarization.",
+    link: "https://coursera.org/share/f10eda3f83075e46900d06e98ae75b7e",
   },
 ];
 

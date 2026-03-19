@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react'; // install: npm install lucide-react
+import profileImg from '../assets/profile.png';
 
 const navItems = [
   { name: 'Skills', href: '#skills' },
@@ -38,6 +39,11 @@ export default function Header() {
         <div className="container-max flex items-center justify-between px-6">
           {/* Logo / Name with gradient */}
           <a href="#" className="flex items-center space-x-3 group">
+            <img 
+              src={profileImg} 
+              alt="Profile" 
+              className="w-12 h-12 rounded-full border-2 border-indigo-600 shadow-lg hover:scale-105 transition-transform duration-200"
+            />
             <motion.span 
               className="text-3xl font-extrabold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent"
               whileHover={{ scale: 1.05 }}

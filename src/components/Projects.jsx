@@ -1,43 +1,81 @@
-// src/components/Projects.jsx
+import { useEffect, useCallback, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Github, Code } from 'lucide-react';
+import { Github, Code, Stethoscope, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
+import soapgenerator from '../assets/projectsoap.png';
+import project3 from '../assets/project3.png';
+// project images
+import project2 from '../assets/project2.png';
 
 const projects = [
   {
-    title: "DigiPlant - Plant Ordering App",
-    description:
-      "Cross-platform mobile application for seamless plant ordering with Node.js backend, RESTful APIs, order/payment management, and user authentication.",
+    id: "bandekibaat",
+    title: "BandeKiBaat — AI Chat App",
+    description: "A mobile AI chat application built with React Native and Expo, powered by Groq API and LLaMA 3.3 70B. Features custom branding, facts-only system prompt, and persistent chat memory.",
+    tech: ["React Native", "Expo", "Groq API", "LLaMA 3.3"],
+    github: null,
+    live: null,
+    icon: Code,
+    image: project2,
+    color: "from-violet-500 to-indigo-600",
+    emoji: "🤖",
+  },
+  {
+    id: "soap-generator",
+    title: "Clinical SOAP Note Generator",
+    description: "Records doctor-patient conversations, transcribes via Groq Whisper, and generates structured SOAP notes using LLaMA. Outputs ICD-10 and CPT billing codes automatically.",
+    tech: ["React", "React Native", "Groq Whisper", "LLaMA 3.3", "Vite"],
+    github: null,
+    live: null,
+    icon: Stethoscope,
+    image: soapgenerator,
+    color: "from-emerald-500 to-teal-600",
+    emoji: "🏥",
+  },
+  {
+    id: "digiplant",
+    title: "DigiPlant — Plant Ordering App",
+    description: "Cross-platform mobile application for seamless plant ordering with Node.js backend, RESTful APIs, order and payment management, and user authentication.",
     tech: ["React Native", "Node.js", "Express", "REST API"],
-    github: "https://github.com/muhammad-shoaib/digiplant", // ← replace with real link
-    live: null, // or "https://digiplant.app" if you have live demo
-    icon: Code,
-  },
-  // Add more real projects here
-  {
-    title: "HealthWiz Mobile App",
-    description:
-      "Mobile health & wellness application developed during internship, including features for tracking and AWS integrations.",
-    tech: ["React Native", "AWS Lambda", "Python"],
-    github: null,
+    github: "https://github.com/muhammad-shoaib/digiplant",
     live: null,
     icon: Code,
+    image: project3,
+    color: "from-green-500 to-lime-600",
+    emoji: "🌿",
   },
-  {
-    title: "NinjaTrader Automation",
-    description:
-      "Automation scripts and tools for trading platform integration and workflow optimization.",
-    tech: ["Python", "Node.js"],
-    github: null,
-    live: null,
-    icon: Code,
-  },
-  // You can keep adding more objects here
 ];
 
 export default function Projects() {
+  const navigate = useNavigate();
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { loop: true, align: 'center' },
+    [Autoplay({ delay: 3500, stopOnInteraction: false })]
+  );
+
+  const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on('select', onSelect);
+    return () => emblaApi.off('select', onSelect);
+  }, [emblaApi, onSelect]);
+
   return (
-    <section id="projects" className="py-20 md:py-28 bg-gradient-to-b from-white to-gray-50">
+    <section id="projects" className="py-20 md:py-28 bg-gradient-to-b from-white to-gray-50 overflow-hidden">
       <div className="container-max px-6">
+
         {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -54,83 +92,128 @@ export default function Projects() {
           <div className="w-24 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto mt-6 rounded-full" />
         </motion.div>
 
-        {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10">
-          {projects.map((project, index) => {
-            const Icon = project.icon;
+        {/* Carousel Wrapper */}
+        <div className="relative">
 
-            return (
-              <motion.div
-                key={project.title}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 + 0.2, duration: 0.6 }}
-                className="group h-full"
-              >
-                <div className="relative h-full bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
-                  {/* Gradient top bar */}
-                  <div className="h-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
+          {/* Left Arrow */}
+          <button
+            onClick={scrollPrev}
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-12 h-12 bg-white rounded-full shadow-lg border border-gray-100 flex items-center justify-center hover:bg-indigo-50 hover:border-indigo-200 transition-all"
+          >
+            <ChevronLeft size={22} className="text-indigo-600" />
+          </button>
 
-                  <div className="p-6 md:p-8 flex flex-col h-full">
-                    {/* Icon & Title */}
-                    <div className="flex items-start gap-4 mb-5">
-                      <div className="p-3 rounded-xl bg-indigo-50 text-indigo-600 group-hover:bg-indigo-100 transition-colors">
-                        <Icon size={32} strokeWidth={1.8} />
+          {/* Right Arrow */}
+          <button
+            onClick={scrollNext}
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-12 h-12 bg-white rounded-full shadow-lg border border-gray-100 flex items-center justify-center hover:bg-indigo-50 hover:border-indigo-200 transition-all"
+          >
+            <ChevronRight size={22} className="text-indigo-600" />
+          </button>
+
+          {/* Embla Viewport */}
+          <div className="overflow-hidden rounded-3xl" ref={emblaRef}>
+            <div className="flex">
+              {projects.map((project) => {
+                const Icon = project.icon;
+                return (
+                  <div
+                    key={project.id}
+                    className="flex-none w-full md:w-[80%] lg:w-[70%] mx-auto px-4"
+                    style={{ flex: '0 0 100%' }}
+                  >
+                    <div
+                      className="bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer group"
+                      onClick={() => navigate(`/project/${project.id}`)}
+                    >
+                      {/* Image / Placeholder */}
+                      <div className={`relative h-72 md:h-96 bg-gradient-to-br ${project.color} flex flex-col items-center justify-center`}>
+                        {project.image ? (
+                          <img
+                            src={project.image}
+                            alt={project.title}
+                            className="w-full h-full object-contain"
+                          />
+                        ) : (
+                          <div className="text-center">
+                            <div className="text-8xl mb-4">{project.emoji}</div>
+                            <div className="bg-white/20 backdrop-blur-sm rounded-2xl px-6 py-3">
+                              <p className="text-white font-semibold text-lg">Screenshot coming soon</p>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Status badge */}
+                        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-4 py-1.5">
+                          <div className="flex items-center gap-2">
+                            <Icon size={14} className="text-indigo-600" />
+                            <span className="text-xs font-semibold text-gray-700">View Details →</span>
+                          </div>
+                        </div>
                       </div>
-                      <h3 className="text-2xl font-bold text-gray-900 group-hover:text-indigo-700 transition-colors">
-                        {project.title}
-                      </h3>
-                    </div>
 
-                    {/* Description */}
-                    <p className="text-gray-700 mb-6 flex-grow leading-relaxed">
-                      {project.description}
-                    </p>
+                      {/* Card Content */}
+                      <div className="p-8 md:p-10">
+                        <h3 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-3 group-hover:text-indigo-700 transition-colors">
+                          {project.title}
+                        </h3>
+                        <p className="text-gray-600 leading-relaxed mb-6 text-base md:text-lg">
+                          {project.description}
+                        </p>
 
-                    {/* Tech Stack */}
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {project.tech.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-3 py-1 bg-indigo-50 text-indigo-700 text-sm font-medium rounded-full"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                        {/* Tech tags */}
+                        <div className="flex flex-wrap gap-2 mb-6">
+                          {project.tech.map((tag) => (
+                            <span
+                              key={tag}
+                              className="px-3 py-1.5 bg-indigo-50 text-indigo-700 text-sm font-medium rounded-full"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
 
-                    {/* Links */}
-                    <div className="flex gap-4 mt-auto">
-                      {project.github && (
-                        <a
-                          href={project.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 text-gray-700 hover:text-indigo-600 transition-colors"
-                        >
-                          <Github size={20} />
-                          <span className="font-medium">Code</span>
-                        </a>
-                      )}
-
-                      {project.live && (
-                        <a
-                          href={project.live}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 text-indigo-600 hover:text-indigo-800 transition-colors font-medium"
-                        >
-                          <ExternalLink size={20} />
-                          <span>Live Demo</span>
-                        </a>
-                      )}
+                        {/* Links */}
+                        <div className="flex items-center justify-between">
+                          {project.github && (
+                            <a
+                              href={project.github}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              className="flex items-center gap-2 text-gray-700 hover:text-indigo-600 transition-colors font-medium"
+                            >
+                              <Github size={20} />
+                              <span>Code</span>
+                            </a>
+                          )}
+                          <span className="ml-auto text-indigo-500 font-semibold text-sm">
+                            Click to view details →
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </motion.div>
-            );
-          })}
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Dots */}
+          <div className="flex justify-center gap-3 mt-8">
+            {projects.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => emblaApi && emblaApi.scrollTo(i)}
+                className={`transition-all duration-300 rounded-full ${
+                  i === selectedIndex
+                    ? 'w-8 h-3 bg-indigo-600'
+                    : 'w-3 h-3 bg-gray-300 hover:bg-indigo-300'
+                }`}
+              />
+            ))}
+          </div>
+
         </div>
       </div>
     </section>
